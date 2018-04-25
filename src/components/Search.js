@@ -21,15 +21,21 @@ class Search extends Component {
 
   // with this syntax, React will bound 'this' automatically to the method
   handleChangeSearch = e => {
-    this.setState({ searchText: e.target.value }, () => {
-      axios
-        .get(
-          `${this.state.apiUrl}/?key=${this.state.apiKey}&q=${
-            this.state.searchText
-          }&$image_type=photo&per_page=${this.state.amount}&safesearch=true`
-        )
-        .then(res => this.setState({ images: res.data.hits }))
-        .catch(e => console.log(e));
+    const val = e.target.value;
+
+    this.setState({ searchText: val }, () => {
+      if (!val) {
+        this.setState({ images: [] });
+      } else {
+        axios
+          .get(
+            `${this.state.apiUrl}/?key=${this.state.apiKey}&q=${
+              this.state.searchText
+            }&$image_type=photo&per_page=${this.state.amount}&safesearch=true`
+          )
+          .then(res => this.setState({ images: res.data.hits }))
+          .catch(e => console.log(e));
+      }
     });
   };
 
