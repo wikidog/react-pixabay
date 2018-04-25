@@ -4,6 +4,9 @@ import { withStyles } from 'material-ui/styles';
 import { MenuItem } from 'material-ui/Menu';
 import { InputLabel } from 'material-ui/Input';
 import { FormControl } from 'material-ui';
+import axios from 'axios';
+
+import ImageResults from './ImageResults';
 
 const styles = theme => ({});
 
@@ -16,21 +19,31 @@ class Search extends Component {
     images: [],
   };
 
-  handleChange_search = e => {
-    this.setState({ searchText: e.target.value });
+  // with this syntax, React will bound 'this' automatically to the method
+  handleChangeSearch = e => {
+    this.setState({ searchText: e.target.value }, () => {
+      axios
+        .get(
+          `${this.state.apiUrl}/?key=${this.state.apiKey}&q=${
+            this.state.searchText
+          }&$image_type=photo&per_page=${this.state.amount}&safesearch=true`
+        )
+        .then(res => this.setState({ images: res.data.hits }))
+        .catch(e => console.log(e));
+    });
   };
 
-  handleChange_amount = e => {
+  handleChangeAmount = e => {
     this.setState({ amount: e.target.value });
   };
 
   render() {
     return (
-      <form>
+      <div>
         <TextField
           label="Search Image"
           value={this.state.searchText}
-          onChange={this.handleChange_search.bind(this)}
+          onChange={this.handleChangeSearch}
           type="search"
           fullWidth
           margin="normal"
@@ -39,7 +52,7 @@ class Search extends Component {
           <InputLabel htmlFor="amount">Amount</InputLabel>
           <Select
             value={this.state.amount}
-            onChange={this.handleChange_amount.bind(this)}
+            onChange={this.handleChangeAmount}
             inputProps={{
               name: 'amount',
               id: 'amount',
@@ -50,7 +63,8 @@ class Search extends Component {
             <MenuItem value={15}>15</MenuItem>
           </Select>
         </FormControl>
-      </form>
+        {this.state.images ? <ImageResults images={this.state.images} /> : null}
+      </div>
     );
   }
 }
