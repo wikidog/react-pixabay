@@ -32,24 +32,20 @@ const renderTextField = ({
   </FormControl>
 );
 
-const renderSelectField = ({
-  input,
-  label,
-  meta: { touched, error },
-  children,
-  ...custom
-}) => (
-  <FormControl>
-    <InputLabel htmlFor={input.name}>{label}</InputLabel>
-    <Select
-      // value={this.state.amount}
-      {...input}
-      onChange={(event, index, value) => input.onChange(value)}
-      children={children}
-      {...custom}
-    />
-  </FormControl>
-);
+const renderSelectField = field => {
+  console.log('field:', field);
+  return (
+    <FormControl>
+      <InputLabel htmlFor={field.input.name}>{field.label}</InputLabel>
+      <Select
+        {...field.input}
+        onChange={(event, index, value) => field.input.onChange(value)}
+        children={field.children}
+        {...field.custom}
+      />
+    </FormControl>
+  );
+};
 
 class Search extends Component {
   state = {
@@ -107,12 +103,16 @@ class Search extends Component {
         /> */}
 
         <div>
-          <Field name="amount" component={renderSelectField} label="Amount">
+          <Field
+            name="amount"
+            component={renderSelectField}
+            label="Amount"
+            value={this.state.amount}
+            onChange={this.handleChangeAmount}
+          >
             <MenuItem value={5}>5</MenuItem>
             <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={15} selected>
-              15
-            </MenuItem>
+            <MenuItem value={15}>15</MenuItem>
           </Field>
         </div>
 
