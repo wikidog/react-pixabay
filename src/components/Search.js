@@ -32,20 +32,12 @@ const renderTextField = ({
   </FormControl>
 );
 
-const renderSelectField = field => {
-  console.log('field:', field);
-  return (
-    <FormControl>
-      <InputLabel htmlFor={field.input.name}>{field.label}</InputLabel>
-      <Select
-        {...field.input}
-        onChange={(event, index, value) => field.input.onChange(value)}
-        children={field.children}
-        {...field.custom}
-      />
-    </FormControl>
-  );
-};
+const renderSelectField = ({ label, input: { name, ...rest }, children }) => (
+  <FormControl>
+    <InputLabel htmlFor={name}>{label}</InputLabel>
+    <Select {...rest} children={children} />
+  </FormControl>
+);
 
 class Search extends Component {
   state = {
@@ -93,60 +85,15 @@ class Search extends Component {
             label="Search Image *"
           />
         </div>
-        {/* <TextField
-          label="Search Image"
-          value={this.state.searchText}
-          onChange={this.handleChangeSearch}
-          type="search"
-          fullWidth
-          margin="normal"
-        /> */}
 
         <div>
-          <Field
-            name="amount"
-            component={renderSelectField}
-            label="Amount"
-            value={this.state.amount}
-            onChange={this.handleChangeAmount}
-          >
+          <Field name="amount" component={renderSelectField} label="Amount">
             <MenuItem value={5}>5</MenuItem>
             <MenuItem value={10}>10</MenuItem>
             <MenuItem value={15}>15</MenuItem>
           </Field>
         </div>
 
-        <FormControl>
-          <InputLabel htmlFor="amount">Amount</InputLabel>
-          <Select
-            value={this.state.amount}
-            onChange={this.handleChangeAmount}
-            inputProps={{
-              name: 'amount',
-              id: 'amount',
-            }}
-          >
-            <MenuItem value={5}>5</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={15}>15</MenuItem>
-          </Select>
-        </FormControl>
-
-        {/* <FormControl>
-          <InputLabel htmlFor="amount">Amount</InputLabel>
-          <Select
-            value={this.state.amount}
-            onChange={this.handleChangeAmount}
-            inputProps={{
-              name: 'amount',
-              id: 'amount',
-            }}
-          >
-            <MenuItem value={5}>5</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={15}>15</MenuItem>
-          </Select>
-        </FormControl> */}
         {this.state.images ? <ImageResults images={this.state.images} /> : null}
       </form>
     );
@@ -169,5 +116,6 @@ export default withStyles(styles)(
   reduxForm({
     form: 'searchForm',
     validate,
+    initialValues: { amount: 5 },
   })(Search)
 );

@@ -14,7 +14,13 @@ import App from './components/App';
 // const sagaMiddleware = createSagaMiddleware();
 // 2nd parameter can be the pre-loaded state
 // const store = createStore(reducer, applyMiddleware(sagaMiddleware));
-const store = createStore(reducer, applyMiddleware());
+//const store = createStore(reducer, applyMiddleware());
+//
+// redux devtool for basic store
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 // sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
