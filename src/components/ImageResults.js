@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-import { withStyles } from 'material-ui/styles';
-import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList';
-import { Button, IconButton } from 'material-ui';
+
+import { withStyles } from '@material-ui/core/styles';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
-import Dialog, { DialogActions, DialogContent } from 'material-ui/Dialog';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
 
 const styles = theme => ({});
 

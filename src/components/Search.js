@@ -1,14 +1,55 @@
 import React, { Component } from 'react';
-import { TextField, Select } from 'material-ui';
-import { withStyles } from 'material-ui/styles';
-import { MenuItem } from 'material-ui/Menu';
-import { InputLabel } from 'material-ui/Input';
-import { FormControl } from 'material-ui';
+import { Field, reduxForm } from 'redux-form';
+
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Button from '@material-ui/core/Button';
+
 import axios from 'axios';
 
 import ImageResults from './ImageResults';
 
 const styles = theme => ({});
+
+const renderTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <FormControl fullWidth error={touched && error ? true : false}>
+    <InputLabel htmlFor={input.name}>{label}</InputLabel>
+    <Input id={input.name} {...input} {...custom} />
+    <FormHelperText id={`${input.name}-text`}>
+      {touched ? error : ''}
+    </FormHelperText>
+  </FormControl>
+);
+
+const renderSelectField = ({
+  input,
+  label,
+  meta: { touched, error },
+  children,
+  ...custom
+}) => (
+  <FormControl>
+    <InputLabel htmlFor={input.name}>{label}</InputLabel>
+    <Select
+      // value={this.state.amount}
+      {...input}
+      onChange={(event, index, value) => input.onChange(value)}
+      children={children}
+      {...custom}
+    />
+  </FormControl>
+);
 
 class Search extends Component {
   state = {
@@ -43,17 +84,38 @@ class Search extends Component {
     this.setState({ amount: e.target.value });
   };
 
+  submitForm = values => {};
+
   render() {
+    const { error, handleSubmit } = this.props;
     return (
-      <div>
-        <TextField
+      <form onSubmit={handleSubmit(this.submitForm)}>
+        <div>
+          <Field
+            name="searchText"
+            component={renderTextField}
+            label="Search Image *"
+          />
+        </div>
+        {/* <TextField
           label="Search Image"
           value={this.state.searchText}
           onChange={this.handleChangeSearch}
           type="search"
           fullWidth
           margin="normal"
-        />
+        /> */}
+
+        <div>
+          <Field name="amount" component={renderSelectField} label="Amount">
+            <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={15} selected>
+              15
+            </MenuItem>
+          </Field>
+        </div>
+
         <FormControl>
           <InputLabel htmlFor="amount">Amount</InputLabel>
           <Select
@@ -69,10 +131,43 @@ class Search extends Component {
             <MenuItem value={15}>15</MenuItem>
           </Select>
         </FormControl>
+
+        {/* <FormControl>
+          <InputLabel htmlFor="amount">Amount</InputLabel>
+          <Select
+            value={this.state.amount}
+            onChange={this.handleChangeAmount}
+            inputProps={{
+              name: 'amount',
+              id: 'amount',
+            }}
+          >
+            <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={15}>15</MenuItem>
+          </Select>
+        </FormControl> */}
         {this.state.images ? <ImageResults images={this.state.images} /> : null}
-      </div>
+      </form>
     );
   }
 }
 
-export default withStyles(styles)(Search);
+function validate(values) {
+  const errors = {};
+
+  if (!values.searchText) {
+    errors.searchText = 'Enter search text';
+  }
+
+  // console.log('validate errors:', errors);
+
+  return errors;
+}
+
+export default withStyles(styles)(
+  reduxForm({
+    form: 'searchForm',
+    validate,
+  })(Search)
+);
