@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -12,6 +13,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
 
 import axios from 'axios';
+
+import * as actions from '../actions';
 
 import ImageResults from './ImageResults';
 
@@ -32,10 +35,10 @@ const renderTextField = ({
   </FormControl>
 );
 
-const renderSelectField = ({ label, input: { name, ...rest }, children }) => (
+const renderSelectField = ({ label, input, children }) => (
   <FormControl>
-    <InputLabel htmlFor={name}>{label}</InputLabel>
-    <Select {...rest} children={children} />
+    <InputLabel htmlFor={input.name}>{label}</InputLabel>
+    <Select {...input} children={children} />
   </FormControl>
 );
 
@@ -110,7 +113,7 @@ class Search extends Component {
   }
 }
 
-function validate(values) {
+const validate = values => {
   const errors = {};
 
   if (!values.searchText) {
@@ -120,12 +123,17 @@ function validate(values) {
   // console.log('validate errors:', errors);
 
   return errors;
-}
+};
 
 export default withStyles(styles)(
-  reduxForm({
-    form: 'searchForm',
-    validate,
-    initialValues: { amount: 5 },
-  })(Search)
+  connect(
+    null,
+    actions
+  )(
+    reduxForm({
+      form: 'searchForm',
+      validate,
+      initialValues: { amount: 5 },
+    })(Search)
+  )
 );

@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-// import createSagaMiddleware from 'redux-saga';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from 'redux-saga';
 
 import reducer from './reducers';
 // import rootSaga from './sagas';
@@ -11,15 +12,14 @@ import reducer from './reducers';
 
 import App from './components/App';
 
-// const sagaMiddleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware();
+
 // 2nd parameter can be the pre-loaded state
 // const store = createStore(reducer, applyMiddleware(sagaMiddleware));
-//const store = createStore(reducer, applyMiddleware());
 //
-// redux devtool for basic store
 const store = createStore(
   reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 // sagaMiddleware.run(rootSaga);
 
