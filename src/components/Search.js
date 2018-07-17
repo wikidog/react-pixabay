@@ -31,6 +31,7 @@ const renderTextField = ({
     </FormHelperText>
   </FormControl>
 );
+
 const renderSelectField = ({ label, input: { name, ...rest }, children }) => (
   <FormControl>
     <InputLabel htmlFor={name}>{label}</InputLabel>
@@ -65,10 +66,6 @@ class Search extends Component {
           .catch(e => console.log(e));
       }
     });
-  };
-
-  handleChangeAmount = e => {
-    this.setState({ amount: e.target.value });
   };
 
   submitForm = values => {};
