@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
@@ -31,7 +31,6 @@ const renderTextField = ({
     </FormHelperText>
   </FormControl>
 );
-
 const renderSelectField = ({ label, input: { name, ...rest }, children }) => (
   <FormControl>
     <InputLabel htmlFor={name}>{label}</InputLabel>
@@ -94,7 +93,21 @@ class Search extends Component {
           </Field>
         </div>
 
-        {this.state.images ? <ImageResults images={this.state.images} /> : null}
+        <div />
+        <Button
+          variant="raised"
+          color="primary"
+          type="submit"
+          // disabled={submitting}
+        >
+          Submit
+        </Button>
+
+        <div>
+          {this.state.images ? (
+            <ImageResults images={this.state.images} />
+          ) : null}
+        </div>
       </form>
     );
   }
