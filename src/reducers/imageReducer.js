@@ -8,7 +8,7 @@ import {
 const initialSate = {
   fetching: false,
   error: null,
-  result: null,
+  response: null,
 };
 
 export default (state = initialSate, action) => {
