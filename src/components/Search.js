@@ -71,7 +71,12 @@ class Search extends Component {
     });
   };
 
-  submitForm = values => {};
+  submitForm = values => {
+    //
+    // this will generate an action
+    //
+    this.props.fetchImage(values);
+  };
 
   render() {
     const { error, handleSubmit } = this.props;
@@ -128,7 +133,7 @@ const validate = values => {
 export default withStyles(styles)(
   connect(
     null,
-    actions
+    actions // see ../actions/index.js
   )(
     reduxForm({
       form: 'searchForm',

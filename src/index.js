@@ -6,9 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 
 import reducer from './reducers';
-// import rootSaga from './sagas';
-
-// import 'typeface-roboto';
+import rootSaga from './sagas';
 
 import App from './components/App';
 
@@ -21,7 +19,7 @@ const store = createStore(
   reducer,
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
-// sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
