@@ -79,7 +79,14 @@ class Search extends Component {
   };
 
   render() {
-    const { error, handleSubmit } = this.props;
+    const {
+      error,
+      handleSubmit,
+      imageFetching,
+      imageError,
+      imageResponse,
+    } = this.props;
+
     return (
       <form onSubmit={handleSubmit(this.submitForm)}>
         <div>
@@ -103,15 +110,13 @@ class Search extends Component {
           variant="raised"
           color="primary"
           type="submit"
-          // disabled={submitting}
+          disabled={imageFetching}
         >
           Submit
         </Button>
 
         <div>
-          {this.state.images ? (
-            <ImageResults images={this.state.images} />
-          ) : null}
+          {imageResponse ? <ImageResults images={imageResponse} /> : null}
         </div>
       </form>
     );
@@ -130,9 +135,17 @@ const validate = values => {
   return errors;
 };
 
+const mapStateToProps = ({ image }) => {
+  return {
+    imageFetching: image.fetching,
+    imageError: image.error,
+    imageResponse: image.response,
+  };
+};
+
 export default withStyles(styles)(
   connect(
-    null,
+    mapStateToProps,
     actions // see ../actions/index.js
   )(
     reduxForm({
