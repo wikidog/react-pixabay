@@ -3,8 +3,10 @@ import React from 'react';
 // to custom the theme
 //
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/purple';
-import green from '@material-ui/core/colors/green';
+// import purple from '@material-ui/core/colors/purple';
+// import green from '@material-ui/core/colors/green';
+import blue from '@material-ui/core/colors/blue';
+import grey from '@material-ui/core/colors/grey';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 // A theme with custom primary and secondary color.
@@ -12,14 +14,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: purple[300],
-      main: purple[500],
-      dark: purple[700],
+      light: blue[300],
+      main: blue[500],
+      dark: blue[700],
     },
     secondary: {
-      light: green[300],
-      main: green[500],
-      dark: green[700],
+      light: grey[300],
+      main: grey[500],
+      dark: grey[700],
     },
   },
 });
