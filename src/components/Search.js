@@ -11,14 +11,27 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
-
-import axios from 'axios';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 import * as actions from '../actions';
 
 import ImageResults from './ImageResults';
 
-const styles = theme => ({});
+// const styles = theme => ({});
+
+const styles = {
+  root: {
+    position: 'relative',
+    overflow: 'hidden',
+    // textAlign: 'center',
+    // paddingTop: this.props.theme.spacing.unit * 20,
+  },
+  snackbar: {
+    position: 'absolute',
+  },
+};
 
 const renderTextField = ({
   input,
@@ -43,34 +56,6 @@ const renderSelectField = ({ label, input, children }) => (
 );
 
 class Search extends Component {
-  state = {
-    searchText: '',
-    amount: 15,
-    apiUrl: 'https://pixabay.com/api',
-    apiKey: '8783992-06499d83b0b376f06affd8505',
-    images: [],
-  };
-
-  // with this syntax, React will bound 'this' automatically to the method
-  handleChangeSearch = e => {
-    const val = e.target.value;
-
-    this.setState({ searchText: val }, () => {
-      if (!val) {
-        this.setState({ images: [] });
-      } else {
-        axios
-          .get(
-            `${this.state.apiUrl}/?key=${this.state.apiKey}&q=${
-              this.state.searchText
-            }&$image_type=photo&per_page=${this.state.amount}&safesearch=true`
-          )
-          .then(res => this.setState({ images: res.data.hits }))
-          .catch(e => console.log(e));
-      }
-    });
-  };
-
   submitForm = values => {
     //
     // this will generate an action
@@ -80,15 +65,18 @@ class Search extends Component {
 
   render() {
     const {
-      error,
+      // error,
+      closeSnackbar,
+      snackbarOpen,
       handleSubmit,
       imageFetching,
       imageError,
       imageResponse,
+      classes,
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.submitForm)}>
+      <form className={classes.root} onSubmit={handleSubmit(this.submitForm)}>
         <div>
           <Field
             name="searchText"
@@ -115,6 +103,31 @@ class Search extends Component {
           Submit
         </Button>
 
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={snackbarOpen}
+          // autoHideDuration={4000}
+          onClose={closeSnackbar}
+          // transition={Fade}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+            className: classes.snackbarContent,
+          }}
+          message={<span id="message-id">{'error'}</span>}
+          action={
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              className={classes.close}
+              onClick={closeSnackbar}
+            >
+              <CloseIcon />
+            </IconButton>
+          }
+          className={classes.snackbar}
+        />
+
         <div>
           {imageResponse ? <ImageResults images={imageResponse} /> : null}
         </div>
@@ -140,6 +153,7 @@ const mapStateToProps = ({ image }) => {
     imageFetching: image.fetching,
     imageError: image.error,
     imageResponse: image.response,
+    snackbarOpen: image.snackbarOpen,
   };
 };
 

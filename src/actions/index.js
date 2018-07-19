@@ -1,4 +1,4 @@
-import { FETCH_IMAGE_REQUEST } from './types';
+import { FETCH_IMAGE_REQUEST, CLOSE_SNACKBAR } from './types';
 
 export const fetchImage = values => ({
   //
@@ -6,4 +6,8 @@ export const fetchImage = values => ({
   //
   type: FETCH_IMAGE_REQUEST,
   payload: values,
+});
+
+export const closeSnackbar = values => ({
+  type: CLOSE_SNACKBAR,
 });
