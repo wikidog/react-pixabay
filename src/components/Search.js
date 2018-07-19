@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import * as actions from '../actions';
 
@@ -21,8 +22,10 @@ import ImageResults from './ImageResults';
 
 // const styles = theme => ({});
 
-const styles = {
+const styles = theme => ({
   root: {
+    // display: 'flex',
+    margin: theme.spacing.unit,
     position: 'relative',
     overflow: 'hidden',
     // textAlign: 'center',
@@ -31,7 +34,19 @@ const styles = {
   snackbar: {
     position: 'absolute',
   },
-};
+  wrapper: {
+    marginTop: theme.spacing.unit,
+    position: 'relative',
+  },
+  buttonProgress: {
+    // color: green[500],
+    position: 'absolute',
+    top: '50%',
+    left: 40,
+    marginTop: -12,
+    marginLeft: -12,
+  },
+});
 
 const renderTextField = ({
   input,
@@ -93,15 +108,20 @@ class Search extends Component {
           </Field>
         </div>
 
-        <div />
-        <Button
-          variant="raised"
-          color="primary"
-          type="submit"
-          disabled={imageFetching}
-        >
-          Submit
-        </Button>
+        <div className={classes.wrapper}>
+          <Button
+            variant="raised"
+            color="primary"
+            type="submit"
+            disabled={imageFetching}
+          >
+            Submit
+          </Button>
+
+          {imageFetching && (
+            <CircularProgress size={24} className={classes.buttonProgress} />
+          )}
+        </div>
 
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
@@ -113,7 +133,7 @@ class Search extends Component {
             'aria-describedby': 'message-id',
             className: classes.snackbarContent,
           }}
-          message={<span id="message-id">{'error'}</span>}
+          message={<span id="message-id">{imageError}</span>}
           action={
             <IconButton
               key="close"

@@ -8,7 +8,7 @@ import {
 
 // -----------------------------------------------------------
 
-const apiUrl = 'https://aapixabay.com/api';
+const apiUrl = 'https://pixabay.com/api';
 const apiKey = '8783992-06499d83b0b376f06affd8505';
 
 function fetchImage(searchText, amount) {
@@ -30,7 +30,7 @@ function* fetchImageRequest(action) {
     yield put({ type: FETCH_IMAGE_SUCCESS, payload: res.data.hits });
   } catch (error) {
     // dispatch a failure action
-    yield put({ type: FETCH_IMAGE_FAILURE, payload: error });
+    yield put({ type: FETCH_IMAGE_FAILURE, payload: 'Fetch image error' });
   }
 }
 
