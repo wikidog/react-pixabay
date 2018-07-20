@@ -133,7 +133,13 @@ class Search extends Component {
             'aria-describedby': 'message-id',
             className: classes.snackbarContent,
           }}
-          message={<span id="message-id">{imageError}</span>}
+          message={
+            <span
+              id="message-id"
+              // allow us to add HTML code to the error message
+              dangerouslySetInnerHTML={{ __html: imageError }}
+            />
+          }
           action={
             <IconButton
               key="close"
