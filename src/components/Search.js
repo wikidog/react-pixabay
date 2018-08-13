@@ -191,7 +191,7 @@ export default withStyles(styles)(
     reduxForm({
       form: 'searchForm',
       validate,
-      initialValues: { amount: 5 },
+      initialValues: { searchText: '', amount: 5 },
     })(Search)
   )
 );
