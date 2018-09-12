@@ -8,7 +8,7 @@ import {
 
 // -----------------------------------------------------------
 
-const apiUrl = 'https://AApixabay.com/api';
+const apiUrl = 'https://pixabay.com/api';
 const apiKey = '8783992-06499d83b0b376f06affd8505';
 
 function fetchImage(searchText, amount) {
