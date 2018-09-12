@@ -133,7 +133,13 @@ class Search extends Component {
             'aria-describedby': 'message-id',
             className: classes.snackbarContent,
           }}
-          message={<span id="message-id">{imageError}</span>}
+          message={
+            <span
+              id="message-id"
+              // allow us to add HTML code to the error message
+              dangerouslySetInnerHTML={{ __html: imageError }}
+            />
+          }
           action={
             <IconButton
               key="close"
@@ -185,7 +191,7 @@ export default withStyles(styles)(
     reduxForm({
       form: 'searchForm',
       validate,
-      initialValues: { amount: 5 },
+      initialValues: { searchText: '', amount: 5 },
     })(Search)
   )
 );
